@@ -1,0 +1,121 @@
+@TodoApi_HostAddress = http://localhost:5191
+
+###
+# Get all TODO items
+GET {{TodoApi_HostAddress}}/api/todos
+Accept: application/json
+
+
+###
+# Search TODOs by text
+GET {{TodoApi_HostAddress}}/api/todos/search?query=MCP
+Accept: application/json
+
+
+###
+# Search TODOs by text
+GET {{TodoApi_HostAddress}}/api/todos/search?query=documentation
+Accept: application/json
+
+
+###
+# Complete TODO by title
+POST {{TodoApi_HostAddress}}/api/todos/complete?title=Buy%20milk
+Accept: application/json
+
+
+###
+# Complete TODO by title with spaces
+POST {{TodoApi_HostAddress}}/api/todos/complete?title=Write%20API%20documentation
+Accept: application/json
+
+
+###
+# Swagger JSON
+GET {{TodoApi_HostAddress}}/swagger/v1/swagger.json
+Accept: application/json
+
+
+###
+# MCP endpoint discovery (initialize handshake)
+POST {{TodoApi_HostAddress}}/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "initialize",
+  "params": {
+    "protocolVersion": "2025-03-26",
+    "capabilities": {},
+    "clientInfo": {
+      "name": "http-client",
+      "version": "1.0"
+    }
+  }
+}
+
+
+###
+# MCP list available tools
+POST {{TodoApi_HostAddress}}/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "method": "tools/list",
+  "params": {}
+}
+
+
+###
+# MCP call ListTodos tool
+POST {{TodoApi_HostAddress}}/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 3,
+  "method": "tools/call",
+  "params": {
+    "name": "list_todos",
+    "arguments": {}
+  }
+}
+
+
+###
+# MCP call SearchTodos tool
+POST {{TodoApi_HostAddress}}/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 4,
+  "method": "tools/call",
+  "params": {
+    "name": "search_todos",
+    "arguments": {
+      "query": "MCP"
+    }
+  }
+}
+
+
+###
+# MCP call CompleteTodoByTitle tool
+POST {{TodoApi_HostAddress}}/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 5,
+  "method": "tools/call",
+  "params": {
+    "name": "complete_todo_by_title",
+    "arguments": {
+      "title": "Buy milk"
+    }
+  }
+}
